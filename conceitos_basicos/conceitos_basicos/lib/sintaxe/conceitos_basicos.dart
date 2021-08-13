@@ -67,7 +67,105 @@ String conversaoTipo() {
   return ("$idade, $altura || $si, $sa || $id1, $sa1");
 }
 
+String estruturaDados() {
+  /*
+
+  Listas 
+
+  */
+
+  // Declaração de uma lista genérica List<dynamic>
+  List<dynamic> seq = ["a", "e", "i", 1, 2];
+  seq[2] = "Vitor Prado de Lima";
+  print(seq[2]);
+
+  // Fixar os tipos dos elementos na lista
+  List<int> seq2 = [1, 2, 3, 4];
+  seq2.add(5);
+  seq2.removeAt(1);
+  print(seq2);
+  print("O índice do 3 é: ${seq2.indexOf(3)}");
+
+  /*
+
+    Dicionários
+
+  */
+  Map<dynamic, dynamic> dict = {
+    "key": "value",
+    1: "one",
+    3.14: "pi",
+    "flag": true,
+  };
+  print(dict.runtimeType);
+  print("O valor em 3.14 é ${dict[3.14]}");
+  print("O valor em 1 é ${dict[1]}");
+
+  dict.remove("flag");
+  print(dict);
+
+  print("Chaves = ${dict.keys}; Valores =  ${dict.values}");
+  print("");
+  dict.forEach((chave, valor) {
+    print("Wong: $chave --> $valor");
+  });
+
+  /*
+
+  Conjuntos
+
+  */
+  Set sacolaDeAlunos = Set();
+
+  sacolaDeAlunos.addAll([
+    "Arthur Felipe",
+    "Lucas Samuel",
+    "Vitor Prado",
+    "Guilherme Leme",
+    "Lewartoski"
+  ]);
+
+  print("");
+  sacolaDeAlunos.forEach(print);
+  print("");
+
+  //sacolaDeAlunos[1];
+  return "Saindo da Função";
+}
+
+enum Disciplinas { SI700, SI202, SI101, SI100 }
+String operadoresCondicionais() {
+  var disciplina = Disciplinas.SI100;
+  String output = "";
+  print(disciplina.runtimeType);
+
+  switch (disciplina) {
+    case Disciplinas.SI100:
+      output += "Coelho \n";
+      break;
+    case Disciplinas.SI101:
+    case Disciplinas.SI700:
+      output += "Ulisses \n";
+      break;
+    case Disciplinas.SI202:
+      output += "De Angelis \n";
+      break;
+  }
+
+  var professor = "Ulisses";
+  if (professor == "Ulisses" || professor == "Meira") {
+    output += "FT \n";
+  } else if (professor == "Zanoni") {
+    output += "IC \n";
+  } else {
+    output += "Não sei quem é";
+  }
+  return output;
+}
+
 void main() {
+  /*
+  
   print("Hello World");
 
   print(declararTipos());
@@ -75,4 +173,8 @@ void main() {
   print(tipoDinamico());
 
   print(conversaoTipo());
+
+  print(estruturaDados());*/
+
+  print(operadoresCondicionais());
 }
