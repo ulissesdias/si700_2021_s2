@@ -160,6 +160,41 @@ String operadoresCondicionais() {
   } else {
     output += "Não sei quem é";
   }
+
+  bool a = false;
+  int b = 1;
+  int c = 2;
+  var d = "uuu";
+
+  output += "${a ? b : c} \n";
+
+  output += "${d ?? 'asdf'} \n";
+  return output;
+}
+
+String lacosRepeticao() {
+  String output = "";
+
+  int count = 0;
+  while (count < 4) {
+    output += "Count = $count, ";
+    count += 1;
+  }
+
+  var soma = 0;
+  for (var i = 1; i <= 10; i++) {
+    soma += i;
+  }
+  output += "\n For convencional: $soma";
+
+  soma = 0;
+  List<int> numeros = [1, 2, 3, 4];
+  for (var num in numeros) {
+    soma += num;
+  }
+  output += "\n For iteração sobre lista: $soma";
+  
+  numeros.forEach(print);
   return output;
 }
 
@@ -174,7 +209,9 @@ void main() {
 
   print(conversaoTipo());
 
-  print(estruturaDados());*/
+  print(estruturaDados());
 
-  print(operadoresCondicionais());
+  print(operadoresCondicionais());*/
+
+  print(lacosRepeticao());
 }
