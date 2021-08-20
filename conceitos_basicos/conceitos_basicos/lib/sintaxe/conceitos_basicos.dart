@@ -311,7 +311,7 @@ void main() {
   print(capturandoExcecoes());
 
 
-  Professor p1 = new Professor();
+  Professor p1 = new Professor("a","b");
   print(p1.sobrenome);
   print(p1.idade);
   //print(p1._nome);
