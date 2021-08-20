@@ -3,6 +3,10 @@
 /*
 
 */
+import 'dart:math';
+
+import 'orientacao_a_objetos.dart';
+
 String declararTipos() {
   String name = "Ulisses";
   int idade = 38;
@@ -193,9 +197,67 @@ String lacosRepeticao() {
     soma += num;
   }
   output += "\n For iteração sobre lista: $soma";
-  
+
   numeros.forEach(print);
   return output;
+}
+
+/* 
+  Aula 02
+*/
+findArea(altura, int largura) {
+  return "A área é: ${altura * largura} \n";
+}
+
+void helloUser(user) {
+  print("Hello $user");
+}
+
+// Arrow
+String findPerimetro(int altura, int largura) =>
+    "findPerimetro: ${2 * (altura + largura)}";
+
+doSomething(a, b, funcao) => "doSomething: ${funcao(a, b)}";
+
+parametrosOpcionaisPosicionais(a, b, [c, d]) {
+  return "Obrigatórios: $a, $b, Opcionais: $c, $d";
+}
+
+parametrosOpcionaisNomeados(a, b, {c, d}) {
+  return "Obrigatórios: $a, $b, Opcionais: $c, $d";
+}
+
+parametrosOpcionaisDefault(a, b, {c = "default", d = "default"}) {
+  return "Obrigatórios: $a, $b, Opcionais: $c, $d";
+}
+
+lancandoExcecoes() {
+  Random random = new Random();
+  int randomNumber = random.nextInt(3);
+
+  print(randomNumber);
+
+  if (randomNumber == 0) {
+    throw "Lancei algo em String";
+  } else if (randomNumber == 1) {
+    throw FormatException("Lancei uma FormatException");
+  } else {
+    throw Exception("Lancei uma Exception");
+  }
+}
+
+capturandoExcecoes() {
+  try {
+    lancandoExcecoes();
+  } on FormatException {
+    return "Chegou uma FormatException, o objeto não importa";
+  } on Exception catch (obj) {
+    return "Capturei uma Exception que é: $obj \n";
+  } catch (obj) {
+    return "Capturei algo e não importa o tipo: $obj \n";
+  } finally {
+    print("Fiz tudo o que devia ter feito");
+  }
 }
 
 void main() {
@@ -211,7 +273,46 @@ void main() {
 
   print(estruturaDados());
 
-  print(operadoresCondicionais());*/
+  print(operadoresCondicionais());
 
   print(lacosRepeticao());
+
+  print(findArea(5, 10));
+  print(findPerimetro(5, 10));
+//  helloUser("Lucas");
+
+  print(doSomething(5, 10, findArea));
+  print(doSomething(5, 10, findPerimetro)); 
+
+  print(doSomething("a", "b", (x, y) {
+    return "${x + y}";
+  }));
+
+  print(doSomething("a", "b", (x, y) => "$x, $y"));
+
+  print("");
+
+  print(parametrosOpcionaisPosicionais(5, 10));
+  print(parametrosOpcionaisPosicionais(5, 10, 15));
+  print(parametrosOpcionaisPosicionais(5, 10, 15, 20));
+
+  // print(parametrosOpcionaisPosicionais(5));
+  // print(parametrosOpcionaisPosicionais(5, 10, 15,20,25));
+
+  print(parametrosOpcionaisNomeados(5, 10));
+  print(parametrosOpcionaisNomeados(5, 10, d: 15));
+  print(parametrosOpcionaisNomeados(5, 10, d: 15, c: 20));
+
+  print("");
+  print(parametrosOpcionaisDefault(5, 10));
+  print(parametrosOpcionaisDefault(5, 10, d: 15));
+  print(parametrosOpcionaisDefault(5, 10, d: 15, c: 20));*/
+
+  print(capturandoExcecoes());
+
+
+  Professor p1 = new Professor();
+  print(p1.sobrenome);
+  print(p1.idade);
+  //print(p1._nome);
 }
