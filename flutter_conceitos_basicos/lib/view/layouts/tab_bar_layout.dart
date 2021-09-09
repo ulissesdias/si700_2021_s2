@@ -13,14 +13,15 @@ class MyTabBarLayout extends StatelessWidget {
             title: Text("Julia Nakamura"),
             bottom: TabBar(
               tabs: [
-                Tab(icon: Icon(Icons.cake)),
-                Tab(icon: Icon(Icons.cloud)),
-                Tab(icon: Icon(Icons.close)),
+                Tab(child: Text("Primeira"), icon: Icon(Icons.cake)),
+                Tab(child: Text("Segunda"), icon: Icon(Icons.cloud)),
+                Tab(child: Text("Terceira"), icon: Icon(Icons.close)),
               ],
             ),
           ),
           body: TabBarView(children: [
             FirstScreen(),
+            //Text("Lewartosky"),
             SecondScreen(),
             ThirdScreen(),
           ])),

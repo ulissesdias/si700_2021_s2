@@ -11,19 +11,31 @@ class MyBottomNavigationBarLayout extends StatefulWidget {
 
 class _MyBottomNavigationBarLayoutState
     extends State<MyBottomNavigationBarLayout> {
-  var _currentPage = 0;
-  var _pages = [FirstScreen(), SecondScreen(), ThirdScreen()];
+  int _currentPage = 0;
+  List<Widget> _pages = [
+    FirstScreen(),
+    SecondScreen(),
+    ThirdScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: _pages[_currentPage]),
-      appBar: AppBar(title: Text("asdf")),
+      body: IndexedStack(children: _pages, index: _currentPage),
+      appBar: AppBar(title: Text("Paloma Eduarda")),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentPage,
+        onTap: (int novoIndex) {
+          setState(() {
+            _currentPage = novoIndex;
+          });
+        },
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.cake), title: Text("asdf")),
-          BottomNavigationBarItem(icon: Icon(Icons.cake), title: Text("asdf")),
-          BottomNavigationBarItem(icon: Icon(Icons.cake), title: Text("asdf")),
+          BottomNavigationBarItem(icon: Icon(Icons.cake), label: "Primeira"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.access_alarms_rounded), label: "Segunda"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.account_box_outlined), label: "Terceira"),
         ],
       ),
     );
