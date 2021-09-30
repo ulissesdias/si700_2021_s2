@@ -10,12 +10,12 @@ class MyTabBarLayout extends StatelessWidget {
       length: 3,
       child: Scaffold(
           appBar: AppBar(
-            title: Text("Julia Nakamura"),
+            title: Text("Programas Assíncronos"),
             bottom: TabBar(
               tabs: [
-                Tab(child: Text("Primeira"), icon: Icon(Icons.cake)),
-                Tab(child: Text("Segunda"), icon: Icon(Icons.cloud)),
-                Tab(child: Text("Terceira"), icon: Icon(Icons.close)),
+                Tab(child: Text("Promises"), icon: Icon(Icons.cake)),
+                Tab(child: Text("Isolates"), icon: Icon(Icons.cloud)),
+                Tab(child: Text("Streams"), icon: Icon(Icons.close)),
               ],
             ),
           ),
