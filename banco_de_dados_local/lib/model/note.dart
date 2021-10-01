@@ -1,16 +1,8 @@
-import 'dart:io';
-
 class Note {
   String _title;
   String _description;
-  File image;
 
   Note() {
-    /*
-      0 = undefined || Firebase
-      1 = local
-      2 = internet
-    */
     _title = "";
     _description = "";
   }
