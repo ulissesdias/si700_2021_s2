@@ -1,5 +1,8 @@
+import 'package:banco_de_dados_local/logic/manage_local_db_bloc.dart';
+import 'package:banco_de_dados_local/logic/manage_local_db_event.dart';
 import 'package:banco_de_dados_local/model/note.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NotesEntry extends StatelessWidget {
   final GlobalKey<FormState> formKey = new GlobalKey();
@@ -64,7 +67,16 @@ class NotesEntry extends StatelessWidget {
   }
 
   Widget submitButton(Note note, context) {
-    return ElevatedButton(child: Text("Insert Data"), onPressed: () {});
+    return ElevatedButton(
+        child: Text("Insert Data"),
+        onPressed: () {
+          if (formKey.currentState.validate()) {
+            formKey.currentState.save();
+            BlocProvider.of<ManageLocalBloc>(context)
+                .add(SubmitEvent(note: note));
+            formKey.currentState.reset();
+          }
+        });
   }
 
   Widget cancelButton(Note note, context) {

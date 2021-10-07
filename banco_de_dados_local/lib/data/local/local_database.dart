@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:banco_de_dados_local/model/collection/note_collection.dart';
 import 'package:banco_de_dados_local/model/note.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -68,15 +69,14 @@ class DatabaseLocalServer {
     Database db = await this.database;
     List<Map<String, Object>> noteMapList =
         await db.rawQuery("SELECT * FROM $noteTable;");
-    List<Note> noteList = [];
-    List<int> idList = [];
+    NoteCollection noteCollection = NoteCollection();
 
     for (int i = 0; i < noteMapList.length; i++) {
       Note note = Note.fromMap(noteMapList[i]);
-      noteList.add(note);
-      idList.add(noteMapList[i][colId]);
+
+      noteCollection.insertNoteOfId(noteMapList[i][colId], note);
     }
 
-    return [noteList, idList];
+    return noteCollection;
   }
 }
