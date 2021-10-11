@@ -1,5 +1,6 @@
 import 'package:banco_de_dados_local/logic/manage_local_db_bloc.dart';
 import 'package:banco_de_dados_local/logic/manage_local_db_event.dart';
+import 'package:banco_de_dados_local/logic/manage_local_db_state.dart';
 import 'package:banco_de_dados_local/model/note.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,16 +11,28 @@ class NotesEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-        key: formKey,
-        child: Column(
-          children: [
-            tituloFormField(note),
-            descriptionFormField(note),
-            submitButton(note, context),
-            cancelButton(note, context),
-          ],
-        ));
+    return Scaffold(
+      appBar: AppBar(title: Text("Gerenciar Anotação")),
+      body:
+          BlocBuilder<ManageLocalBloc, ManageState>(builder: (context, state) {
+        Note note;
+        if (state is UpdateState) {
+          note = state.previousNote;
+        } else {
+          note = new Note();
+        }
+        return Form(
+            key: formKey,
+            child: Column(
+              children: [
+                tituloFormField(note),
+                descriptionFormField(note),
+                submitButton(note, context, state),
+                cancelButton(note, context, state),
+              ],
+            ));
+      }),
+    );
   }
 
   Widget tituloFormField(Note note) {
@@ -66,20 +79,29 @@ class NotesEntry extends StatelessWidget {
     );
   }
 
-  Widget submitButton(Note note, context) {
+  Widget submitButton(Note note, BuildContext context, ManageState state) {
     return ElevatedButton(
-        child: Text("Insert Data"),
+        child:
+            (state is UpdateState ? Text("Update Data") : Text("Insert Data")),
         onPressed: () {
           if (formKey.currentState.validate()) {
             formKey.currentState.save();
             BlocProvider.of<ManageLocalBloc>(context)
                 .add(SubmitEvent(note: note));
             formKey.currentState.reset();
+            Navigator.pop(context);
           }
         });
   }
 
-  Widget cancelButton(Note note, context) {
-    return ElevatedButton(onPressed: () {}, child: Text("Cancel Update"));
+  Widget cancelButton(Note note, BuildContext context, ManageState state) {
+    return (state is UpdateState
+        ? ElevatedButton(
+            onPressed: () {
+              BlocProvider.of<ManageLocalBloc>(context).add(UpdateCancel());
+              Navigator.pop(context);
+            },
+            child: Text("Cancel Update"))
+        : Container());
   }
 }

@@ -65,7 +65,7 @@ class DatabaseLocalServer {
       """);
   }
 
-  getNoteList() async {
+  Future<NoteCollection> getNoteList() async {
     Database db = await this.database;
     List<Map<String, Object>> noteMapList =
         await db.rawQuery("SELECT * FROM $noteTable;");
@@ -76,7 +76,6 @@ class DatabaseLocalServer {
 
       noteCollection.insertNoteOfId(noteMapList[i][colId], note);
     }
-
     return noteCollection;
   }
 }

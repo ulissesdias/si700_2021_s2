@@ -9,6 +9,10 @@ class NoteCollection {
     noteList = [];
   }
 
+  int length() {
+    return idList.length;
+  }
+
   Note getNodeAtIndex(int index) {
     return noteList[index];
   }
