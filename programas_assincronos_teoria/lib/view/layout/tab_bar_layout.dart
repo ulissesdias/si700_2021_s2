@@ -13,7 +13,7 @@ class MyTabBarLayout extends StatelessWidget {
             title: Text("Programas Assíncronos"),
             bottom: TabBar(
               tabs: [
-                Tab(child: Text("Promises"), icon: Icon(Icons.cake)),
+                Tab(child: Text("Futures"), icon: Icon(Icons.cake)),
                 Tab(child: Text("Isolates"), icon: Icon(Icons.cloud)),
                 Tab(child: Text("Streams"), icon: Icon(Icons.close)),
               ],
