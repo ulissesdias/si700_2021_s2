@@ -40,7 +40,7 @@ class NoteList extends StatelessWidget {
                     BlocProvider.of<ManageLocalBloc>(context).add(DeleteEvent(
                         noteId: noteCollection.getIdAtIndex(position)));
 
-                    BlocProvider.of<MonitorBloc>(context).add(AskNewList());
+                    // BlocProvider.of<MonitorBloc>(context).add(AskNewList());
                   },
                   child: Icon(Icons.delete)),
               title: Text(noteCollection.getNodeAtIndex(position).title),

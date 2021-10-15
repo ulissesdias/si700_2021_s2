@@ -1,5 +1,6 @@
 // Data Provider para o banco de dados local sqflite
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:banco_de_dados_local/model/collection/note_collection.dart';
@@ -16,6 +17,8 @@ class DatabaseLocalServer {
 
   // Objeto do SQFLite para fazer as requisições.
   static Database _database;
+
+  static const INVALIDATE = 1;
 
   // Configuração do banco: nomes de tabelas.
   String noteTable = "note_table";
@@ -49,20 +52,30 @@ class DatabaseLocalServer {
 
   Future<int> insertNote(Note note) async {
     Database db = await this.database;
-    return db.insert(noteTable, note.toMap());
+    int result = await db.insert(noteTable, note.toMap());
+    //notify();
+    notify(result, note);
+    return result;
   }
 
   Future<int> updateNote(int noteId, Note note) async {
     Database db = await this.database;
-    return db.update(noteTable, note.toMap(),
+    int result = await db.update(noteTable, note.toMap(),
         where: "$colId = ?", whereArgs: [noteId]);
+    // notify();
+    notify(noteId, note);
+    return result;
   }
 
   Future<int> deleteNote(int noteId) async {
     Database db = await this.database;
-    return db.rawDelete("""
+
+    int result = await db.rawDelete("""
         DELETE FROM $noteTable WHERE $colId = $noteId;
       """);
+    //notify();
+    notify(noteId, null);
+    return result;
   }
 
   Future<NoteCollection> getNoteList() async {
@@ -78,4 +91,31 @@ class DatabaseLocalServer {
     }
     return noteCollection;
   }
+
+  /*
+     Parte da STREAM
+  */
+  notify(int noteId, Note note) async {
+    if (_controller != null) {
+      // _controller.sink.add(INVALIDATE);
+
+      _controller.sink.add([noteId, note]);
+    }
+  }
+
+  Stream get stream {
+    if (_controller == null) {
+      _controller = StreamController.broadcast();
+    }
+    return _controller.stream;
+  }
+
+  dispose() {
+    if (!_controller.hasListener) {
+      _controller.close();
+      _controller = null;
+    }
+  }
+
+  static StreamController _controller;
 }

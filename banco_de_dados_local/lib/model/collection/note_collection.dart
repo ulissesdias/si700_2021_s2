@@ -30,6 +30,16 @@ class NoteCollection {
     return -1;
   }
 
+  updateOrInsertNoteOfId(int id, Note note) {
+    int index = getIndexOfId(id);
+    if (index != -1) {
+      noteList[index] = note;
+    } else {
+      idList.add(id);
+      noteList.add(note);
+    }
+  }
+
   updateNoteOfId(int id, Note note) {
     int index = getIndexOfId(id);
     if (index != -1) {
