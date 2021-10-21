@@ -1,8 +1,8 @@
 // Data Provider para o banco de dados local sqflite
 
 import 'dart:async';
-import 'dart:io';
-
+import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:banco_de_dados_webservice/model/collection/note_collection.dart';
 import 'package:banco_de_dados_webservice/model/note.dart';
 
@@ -13,28 +13,31 @@ class DatabaseRemoteServer {
   // Construtor privado
   DatabaseRemoteServer._createInstance();
 
-  // Configuração do banco: nomes de tabelas.
-  String noteTable = "note_table";
-  String colId = "id"; // Auto-numerar
-  String colTitle = "title";
-  String colDescription = "description";
+  Dio _dio = Dio();
+  String databaseUrl = "LINK DO SERVIDOR QUANDO FOR CRIADO";
 
   Future<int> insertNote(Note note) async {
-    int result = 42;
-    notify(result, note);
-    return result;
+    await _dio.post(databaseUrl,
+        options: Options(headers: {"Accept": "application/json"}),
+        data:
+            jsonEncode({"title": note.title, "description": note.description}));
+    return 42;
   }
 
   Future<int> updateNote(int noteId, Note note) async {
-    int result = 42;
-    notify(noteId, note);
-    return result;
+    await _dio.post(databaseUrl + "/noteId",
+        options: Options(headers: {"Accept": "application/json"}),
+        data:
+            jsonEncode({"title": note.title, "description": note.description}));
+    return 42;
   }
 
   Future<int> deleteNote(int noteId) async {
-    int result = 42;
-    notify(noteId, null);
-    return result;
+    await _dio.post(
+      databaseUrl + "/noteId",
+      options: Options(headers: {"Accept": "application/json"}),
+    );
+    return 42;
   }
 
   Future<NoteCollection> getNoteList() async {
