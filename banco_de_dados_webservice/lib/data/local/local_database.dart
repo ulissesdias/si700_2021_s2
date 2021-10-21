@@ -16,6 +16,14 @@ class DatabaseRemoteServer {
   Dio _dio = Dio();
   String databaseUrl = "LINK DO SERVIDOR QUANDO FOR CRIADO";
 
+  Future<Note> getNote(id) async {
+    Response response = await _dio.get(
+      databaseUrl + "/noteId",
+      options: Options(headers: {"Accept": "application/json"}),
+    );
+    return Note.fromMap(response.data);
+  }
+
   Future<int> insertNote(Note note) async {
     await _dio.post(databaseUrl,
         options: Options(headers: {"Accept": "application/json"}),
@@ -41,7 +49,20 @@ class DatabaseRemoteServer {
   }
 
   Future<NoteCollection> getNoteList() async {
+    Response response = await _dio.get(
+      databaseUrl,
+      options: Options(headers: {"Accept": "application/json"}),
+    );
+
     NoteCollection noteCollection = NoteCollection();
+
+    int id = 0;
+    response.data.forEach((element) {
+      Note note = Note.fromMap(element);
+      noteCollection.insertNoteOfId(id, note);
+      id++;
+    });
+
     return noteCollection;
   } /*  */
 
