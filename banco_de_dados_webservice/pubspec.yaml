@@ -32,6 +32,7 @@ dependencies:
 
   flutter_bloc: ^7.3.0
   dio: ^4.0.0 # Biblioteca para API Requests
+  socket_io_client: 2.0.0-beta.4-nullsafety.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

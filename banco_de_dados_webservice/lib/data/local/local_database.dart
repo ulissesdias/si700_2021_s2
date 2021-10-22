@@ -2,9 +2,11 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:banco_de_dados_webservice/model/collection/note_collection.dart';
 import 'package:banco_de_dados_webservice/model/note.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 class DatabaseRemoteServer {
   // Atributo que irá afunilar todas as consultas
@@ -14,11 +16,11 @@ class DatabaseRemoteServer {
   DatabaseRemoteServer._createInstance();
 
   Dio _dio = Dio();
-  String databaseUrl = "LINK DO SERVIDOR QUANDO FOR CRIADO";
+  String databaseUrl = "http://192.168.15.5:3000/notes";
 
-  Future<Note> getNote(id) async {
+  Future<Note> getNote(noteId) async {
     Response response = await _dio.get(
-      databaseUrl + "/noteId",
+      databaseUrl + "/$noteId",
       options: Options(headers: {"Accept": "application/json"}),
     );
     return Note.fromMap(response.data);
@@ -33,7 +35,7 @@ class DatabaseRemoteServer {
   }
 
   Future<int> updateNote(int noteId, Note note) async {
-    await _dio.post(databaseUrl + "/noteId",
+    await _dio.put(databaseUrl + "/$noteId",
         options: Options(headers: {"Accept": "application/json"}),
         data:
             jsonEncode({"title": note.title, "description": note.description}));
@@ -41,8 +43,8 @@ class DatabaseRemoteServer {
   }
 
   Future<int> deleteNote(int noteId) async {
-    await _dio.post(
-      databaseUrl + "/noteId",
+    await _dio.delete(
+      databaseUrl + "/$noteId",
       options: Options(headers: {"Accept": "application/json"}),
     );
     return 42;
@@ -58,8 +60,10 @@ class DatabaseRemoteServer {
 
     int id = 0;
     response.data.forEach((element) {
-      Note note = Note.fromMap(element);
-      noteCollection.insertNoteOfId(id, note);
+      if (element != null) {
+        Note note = Note.fromMap(element);
+        noteCollection.insertNoteOfId(id, note);
+      }
       id++;
     });
 
@@ -75,6 +79,26 @@ class DatabaseRemoteServer {
 
   Stream get stream {
     _controller ??= StreamController.broadcast();
+
+    Socket socket = io(
+        "http://192.168.15.5:3000",
+        OptionBuilder().setTransports(['websocket']) // for Flutter or Dart VM
+            .build());
+
+    socket.on('server_information', (data) {
+      int noteId = data["noteId"];
+      String title = data["title"];
+      String description = data["description"];
+
+      if (title == "") {
+        notify(noteId, null);
+      } else {
+        Note note = Note();
+        note.title = title;
+        note.description = description;
+        notify(noteId, note);
+      }
+    });
     return _controller!.stream;
   }
 
