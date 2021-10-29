@@ -142,14 +142,14 @@ async function connectToMongoDB(){
     });
 
     app.post(endpoint, async (req, res) => {
-        console.log(req.body);
         const note = {
         title : req.body["title"],
         description :  req.body["description"]
         }
-        await mensagens.insertOne(note);
+        const id = await mensagens.insertOne(note);
         res.send('1');
-        notify(notes.length, note["title"], note["description"]);
+
+        notify(id.insertedId.toString(), note["title"], note["description"]);
     });
     
     
@@ -167,7 +167,7 @@ async function connectToMongoDB(){
         );
     
         res.send("1");
-        notify(parseInt(id), note["title"], note["description"]);
+        notify(id, note["title"], note["description"]);
     });
     
     app.delete(`${endpoint}/:id`, async (req,res) => {
@@ -176,7 +176,7 @@ async function connectToMongoDB(){
         await mensagens.deleteOne({_id : ObjectId(id)});
         res.send('1');
     
-        notify(parseInt(id), "", "");
+        notify(id, "", "");
     });    
 }
 connectToMongoDB();
