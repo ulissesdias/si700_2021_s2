@@ -4,6 +4,7 @@ const app = express();
 const endpoint = "/notes";
 
 app.use(endpoint, express.json());
+app.use("/database", express.json());
 
 
 var cors = require('cors')
@@ -37,6 +38,7 @@ app.get(`${endpoint}/:id`, (req, res) => {
 });
 
 app.post(endpoint, (req, res) => {
+    console.log(req);
     const note = {
 	title : req.body["title"],
 	description :  req.body["description"]
@@ -45,6 +47,7 @@ app.post(endpoint, (req, res) => {
     res.send('1');
     notify(notes.length, note["title"], note["description"]);
 });
+
 
 app.put(`${endpoint}/:id`, (req, res) => {
 
@@ -89,3 +92,106 @@ function notify(noteId, title, description){
 		    }
 		   );
 }
+
+/*
+ Parte do MongoDB
+*/
+
+const mongodb = require('mongodb')
+const ObjectId = mongodb.ObjectId;
+const password = process.env.PASSWORD || "password";
+const connectionString = `mongodb+srv://admin:${password}@cluster0.opqj8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+
+const options = { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true 
+}
+
+
+
+async function connectToMongoDB(){
+    const client = await mongodb.MongoClient.connect(connectionString,options);
+
+    const db = client.db('myFirstDatabase');
+
+    const mensagens = db.collection('mensagens');    
+
+    console.log(await mensagens.find({}).toArray());
+
+    const endpoint = "/database";
+
+
+    /*
+      Rotas
+    */
+    app.get(endpoint, async  (req, res) => {
+        res.send(await mensagens.find({}).toArray());
+    });
+    
+    app.get(`${endpoint}/:id`, async (req, res) => {
+        const id = req.params.id;
+        const note = await mensagens.findOne({
+            _id: ObjectId(id)
+        });
+    
+        if (note) {
+        res.send(note);
+        } else {
+        res.send("{}");
+        }
+    });
+
+    app.post(endpoint, async (req, res) => {
+        console.log(req.body);
+        const note = {
+        title : req.body["title"],
+        description :  req.body["description"]
+        }
+        await mensagens.insertOne(note);
+        res.send('1');
+        notify(notes.length, note["title"], note["description"]);
+    });
+    
+    
+    app.put(`${endpoint}/:id`, async (req, res) => {
+    
+        const id = req.params.id;
+        const note = {
+        title : req.body["title"],
+        description :  req.body["description"]
+        }
+        notes[id] = note;
+
+        await mensagens.updateOne({_id : ObjectId(id)},
+        {$set: note}
+        );
+    
+        res.send("1");
+        notify(parseInt(id), note["title"], note["description"]);
+    });
+    
+    app.delete(`${endpoint}/:id`, async (req,res) => {
+        const id = req.params.id;
+        console.log(id);
+        await mensagens.deleteOne({_id : ObjectId(id)});
+        res.send('1');
+    
+        notify(parseInt(id), "", "");
+    });    
+}
+connectToMongoDB();
+
+/*
+ Tentando se conectar ao servidor
+
+const { MongoClient } = require('mongodb');
+
+const client = new MongoClient(uri, );
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+
+
+*/

@@ -1,7 +1,7 @@
 import '../note.dart';
 
 class NoteCollection {
-  List<int> idList = [];
+  List<String> idList = [];
   List<Note> noteList = [];
 
   NoteCollection() {
@@ -17,11 +17,11 @@ class NoteCollection {
     return noteList[index];
   }
 
-  int getIdAtIndex(int index) {
+  String getIdAtIndex(int index) {
     return idList[index];
   }
 
-  int getIndexOfId(int id) {
+  int getIndexOfId(String id) {
     for (int i = 0; i < idList.length; i++) {
       if (id == idList[i]) {
         return i;
@@ -30,7 +30,7 @@ class NoteCollection {
     return -1;
   }
 
-  updateOrInsertNoteOfId(int id, Note note) {
+  updateOrInsertNoteOfId(String id, Note note) {
     int index = getIndexOfId(id);
     if (index != -1) {
       noteList[index] = note;
@@ -40,14 +40,14 @@ class NoteCollection {
     }
   }
 
-  updateNoteOfId(int id, Note note) {
+  updateNoteOfId(String id, Note note) {
     int index = getIndexOfId(id);
     if (index != -1) {
       noteList[index] = note;
     }
   }
 
-  deleteNoteOfId(int id) {
+  deleteNoteOfId(String id) {
     int index = getIndexOfId(id);
     if (index != -1) {
       noteList.removeAt(index);
@@ -55,7 +55,7 @@ class NoteCollection {
     }
   }
 
-  insertNoteOfId(int id, Note note) {
+  insertNoteOfId(String id, Note note) {
     idList.add(id);
     noteList.add(note);
   }

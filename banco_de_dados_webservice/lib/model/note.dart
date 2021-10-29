@@ -8,22 +8,22 @@ class Note {
   }
 
   Note.fromMap(map) {
-    this._title = map["title"];
-    this._description = map["description"];
+    _title = map["title"];
+    _description = map["description"];
   }
 
   String get title => _title;
   String get description => _description;
 
   set title(String newTitle) {
-    if (newTitle.length > 0) {
-      this._title = newTitle;
+    if (newTitle.isNotEmpty) {
+      _title = newTitle;
     }
   }
 
   set description(String newDescription) {
-    if (newDescription.length > 0) {
-      this._description = newDescription;
+    if (newDescription.isNotEmpty) {
+      _description = newDescription;
     }
   }
 

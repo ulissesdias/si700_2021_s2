@@ -1,4 +1,4 @@
-import 'package:banco_de_dados_webservice/data/local/local_database.dart';
+import 'package:banco_de_dados_webservice/data/local/remote_database.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'manage_local_db_event.dart';

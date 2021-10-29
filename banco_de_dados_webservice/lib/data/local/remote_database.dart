@@ -2,7 +2,6 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:banco_de_dados_webservice/model/collection/note_collection.dart';
 import 'package:banco_de_dados_webservice/model/note.dart';
@@ -15,8 +14,8 @@ class DatabaseRemoteServer {
   // Construtor privado
   DatabaseRemoteServer._createInstance();
 
-  Dio _dio = Dio();
-  String databaseUrl = "http://192.168.15.5:3000/notes";
+  final Dio _dio = Dio();
+  String databaseUrl = "http://192.168.15.5:3000/database";
 
   Future<Note> getNote(noteId) async {
     Response response = await _dio.get(
@@ -34,7 +33,7 @@ class DatabaseRemoteServer {
     return 42;
   }
 
-  Future<int> updateNote(int noteId, Note note) async {
+  Future<int> updateNote(noteId, Note note) async {
     await _dio.put(databaseUrl + "/$noteId",
         options: Options(headers: {"Accept": "application/json"}),
         data:
@@ -42,7 +41,7 @@ class DatabaseRemoteServer {
     return 42;
   }
 
-  Future<int> deleteNote(int noteId) async {
+  Future<int> deleteNote(noteId) async {
     await _dio.delete(
       databaseUrl + "/$noteId",
       options: Options(headers: {"Accept": "application/json"}),
@@ -57,6 +56,8 @@ class DatabaseRemoteServer {
     );
 
     NoteCollection noteCollection = NoteCollection();
+/*
+  // Código antigo
 
     int id = 0;
     response.data.forEach((element) {
@@ -66,6 +67,14 @@ class DatabaseRemoteServer {
       }
       id++;
     });
+*/
+    response.data.forEach((element) {
+      if (element != null) {
+        Note note = Note.fromMap(element);
+        String id = element["_id"];
+        noteCollection.insertNoteOfId(id, note);
+      }
+    });
 
     return noteCollection;
   } /*  */
@@ -73,7 +82,7 @@ class DatabaseRemoteServer {
   /*
      Parte da STREAM
   */
-  notify(int noteId, Note? note) async {
+  notify(String noteId, Note? note) async {
     _controller?.sink.add([noteId, note]);
   }
 
@@ -86,7 +95,7 @@ class DatabaseRemoteServer {
             .build());
 
     socket.on('server_information', (data) {
-      int noteId = data["noteId"];
+      String noteId = data["noteId"];
       String title = data["title"];
       String description = data["description"];
 

@@ -1,4 +1,4 @@
-import 'package:banco_de_dados_webservice/data/local/local_database.dart';
+import 'package:banco_de_dados_webservice/data/local/remote_database.dart';
 import 'package:banco_de_dados_webservice/logic/monitor_local_db_event.dart';
 import 'package:banco_de_dados_webservice/logic/monitor_local_db_state.dart';
 import 'package:banco_de_dados_webservice/model/collection/note_collection.dart';
@@ -18,7 +18,7 @@ class MonitorBloc extends Bloc<MonitorEvent, MonitorState> {
         add(AskNewList());
       }
       */
-      int noteId = event[0];
+      String noteId = event[0];
 
       if (event[1] == null) {
         // Ocorreu um delete

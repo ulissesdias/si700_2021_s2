@@ -8,12 +8,12 @@ class SubmitEvent extends ManageEvent {
 }
 
 class DeleteEvent extends ManageEvent {
-  int noteId;
+  String noteId;
   DeleteEvent({required this.noteId});
 }
 
 class UpdateRequest extends ManageEvent {
-  int noteId;
+  String noteId;
   Note previousNote;
   UpdateRequest({required this.noteId, required this.previousNote});
 }
