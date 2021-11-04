@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "476452343373",
+    "project_id": "si7002s2001",
+    "storage_bucket": "si7002s2001.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:476452343373:android:3f2087b4bc3fb040405604",
+        "android_client_info": {
+          "package_name": "com.example.banco_de_dados_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "476452343373-158ifk9pm5egu2o0rmecq30if8caf22q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFPQu_DE_z9jkYz822VV8rhv11E39dKBI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "476452343373-158ifk9pm5egu2o0rmecq30if8caf22q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
