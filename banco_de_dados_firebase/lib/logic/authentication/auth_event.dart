@@ -1,3 +1,5 @@
+import 'package:banco_de_dados_firebase/model/user_model.dart';
+
 abstract class AuthEvent {}
 
 class RegisterUser extends AuthEvent {
@@ -17,3 +19,8 @@ class LoginUser extends AuthEvent {
 class LoginAnonymousUser extends AuthEvent {}
 
 class Logout extends AuthEvent {}
+
+class AuthServerEvent extends AuthEvent {
+  final UserModel? userModel;
+  AuthServerEvent(this.userModel);
+}

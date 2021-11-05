@@ -19,7 +19,19 @@ class Wrapper extends StatefulWidget {
 class WrapperState extends State<Wrapper> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthError) {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text("Erro do Firebase"),
+                  content: Text(state.message),
+                );
+              });
+        }
+      },
       builder: (context, state) {
         if (state is Authenticated) {
           return MultiBlocProvider(providers: [

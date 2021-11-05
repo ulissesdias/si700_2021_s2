@@ -1,7 +1,6 @@
 // Data Provider para o banco de dados local sqflite
 
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:banco_de_dados_firebase/model/collection/note_collection.dart';
 import 'package:banco_de_dados_firebase/model/note.dart';

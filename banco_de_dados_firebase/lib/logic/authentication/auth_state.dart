@@ -1,8 +1,16 @@
+import 'package:banco_de_dados_firebase/model/user_model.dart';
+
 abstract class AuthState {}
 
 class Unauthenticated extends AuthState {}
 
 class Authenticated extends AuthState {
-  String nome;
-  Authenticated({required this.nome});
+  UserModel userModel;
+  Authenticated({required this.userModel});
+}
+
+class AuthError extends AuthState {
+  final String message;
+
+  AuthError({required this.message});
 }
