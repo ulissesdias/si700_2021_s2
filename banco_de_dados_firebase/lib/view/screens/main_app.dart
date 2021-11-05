@@ -1,3 +1,5 @@
+import 'package:banco_de_dados_firebase/logic/authentication/auth_bloc.dart';
+import 'package:banco_de_dados_firebase/logic/authentication/auth_event.dart';
 import 'package:banco_de_dados_firebase/logic/manage_local_db_bloc.dart';
 import 'package:banco_de_dados_firebase/logic/manage_local_db_event.dart';
 import 'package:banco_de_dados_firebase/view/screens/note_list.dart';
@@ -14,13 +16,22 @@ class _ScaffoldAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          BlocProvider.of<ManageLocalBloc>(context).add(UpdateCancel());
-          Navigator.push(
-              context, MaterialPageRoute(builder: (_) => NotesEntry()));
-        },
-        child: const Icon(Icons.add),
+      floatingActionButton: Row(
+        children: [
+          FloatingActionButton(
+              onPressed: () {
+                BlocProvider.of<AuthBloc>(context).add(Logout());
+              },
+              child: const Icon(Icons.logout)),
+          FloatingActionButton(
+            onPressed: () {
+              BlocProvider.of<ManageLocalBloc>(context).add(UpdateCancel());
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => NotesEntry()));
+            },
+            child: const Icon(Icons.add),
+          ),
+        ],
       ),
       body: NoteList(),
     );
