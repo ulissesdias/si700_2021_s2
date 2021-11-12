@@ -27,7 +27,11 @@ class _ScaffoldAppState extends State<MainApp> {
             onPressed: () {
               BlocProvider.of<ManageLocalBloc>(context).add(UpdateCancel());
               Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => NotesEntry()));
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => BlocProvider<ManageLocalBloc>.value(
+                          value: BlocProvider.of<ManageLocalBloc>(context),
+                          child: NotesEntry())));
             },
             child: const Icon(Icons.add),
           ),

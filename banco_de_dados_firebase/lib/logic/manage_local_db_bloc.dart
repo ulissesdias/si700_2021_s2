@@ -1,4 +1,4 @@
-import 'package:banco_de_dados_firebase/data/local/remote_database.dart';
+import 'package:banco_de_dados_firebase/data/cloud/firestore_database.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'manage_local_db_event.dart';
@@ -16,13 +16,13 @@ class ManageLocalBloc extends Bloc<ManageEvent, ManageState> {
     } else {
       if (event is SubmitEvent) {
         if (state is InsertState) {
-          DatabaseRemoteServer.helper.insertNote(event.note);
+          FirebaseRemoteServer.helper.insertNote(event.note);
         } else if (state is UpdateState) {
-          DatabaseRemoteServer.helper
+          FirebaseRemoteServer.helper
               .updateNote((state as UpdateState).noteId, event.note);
         }
       } else if (event is DeleteEvent) {
-        DatabaseRemoteServer.helper.deleteNote(event.noteId);
+        FirebaseRemoteServer.helper.deleteNote(event.noteId);
       }
     }
   }

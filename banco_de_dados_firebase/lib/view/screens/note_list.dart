@@ -31,7 +31,11 @@ class NoteList extends StatelessWidget {
                     noteId: noteCollection.getIdAtIndex(position),
                     previousNote: noteCollection.getNodeAtIndex(position)));
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => NotesEntry()));
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => BlocProvider<ManageLocalBloc>.value(
+                            value: BlocProvider.of<ManageLocalBloc>(context),
+                            child: NotesEntry())));
               },
               leading: Icon(icons[position % icons.length]),
               trailing: GestureDetector(
